@@ -36,6 +36,13 @@ function itoa
 
 
 inet=("$(whois $1 | grep inetnum)")
+if [ ${#inet} == 0 ]; then
+   inet=("$(whois $1 | grep CIDR)")
+   if [ ${#inet} > 0 ]; then
+      printf "%s\n" $inet 
+    fi
+   exit
+fi
 inetInfo=($inet)
 
 inetFrom=("${inetInfo[1]}")
