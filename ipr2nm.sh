@@ -38,7 +38,7 @@ function itoa
 inet=("$(whois $1 | grep inetnum)")
 if [ ${#inet} == 0 ]; then
    inet=("$(whois $1 | grep CIDR)")
-   if [ ${#inet} > 0 ]; then
+   if [ ${#inet} -gt 0 ]; then
       printf "%s\n" $inet 
     fi
    exit
@@ -55,6 +55,9 @@ inetToBin=$(echo "obase=2;$inetToNum" | bc)
 
 printf "%s %s\n%s %s\n" $inetFromBin $inetFrom $inetToBin $inetTo
 
+# xor both IP adresses
 iF2iT=$(( $inetFromNum ^ $inetToNum ))
 iF2iTBin=$(echo "obase=2;$iF2iT" | bc)
-printf "%s /%d\n" $inetFrom $((32 - ${#iF2iTBin} )) 
+printf "%s/%d\n" $inetFrom $((32 - ${#iF2iTBin} )) 
+
+
